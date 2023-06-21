@@ -8,7 +8,7 @@ const size_t MAX_ASTERISK = SCREEN_WIDTH - 3 - 1;
 int main() {
 
 	std::cout << "Enter A and B: ";
-	int a, b;
+	double a, b;
 	std::cin >> a >> b;
     std::cout << "A + B = " << a + b << '\n'
 			  << "A - B = " << a - b << '\n'
