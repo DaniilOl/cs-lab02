@@ -6,6 +6,16 @@ const size_t SCREEN_WIDTH = 80;
 const size_t MAX_ASTERISK = SCREEN_WIDTH - 3 - 1;
 
 int main() {
+
+	std::cout << "Enter A and B: ";
+	int a, b;
+	std::cin >> a >> b;
+
+
+
+
+
+
 	size_t numberCount;
 
 	std::cerr << "Enter number count: ";
