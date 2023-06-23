@@ -5,35 +5,90 @@
 const size_t SCREEN_WIDTH = 80;
 const size_t MAX_ASTERISK = SCREEN_WIDTH - 3 - 1;
 
+std::vector<double> input_numbers(size_t count);
+void output_numbers(std::vector<double> bins, std::vector<std::string> labels, std::string longestLabel, size_t binCount);
+void output_numbers_scaling(std::vector<double> bins, std::vector<std::string> labels, std::string longestLabel, size_t binCount);
+void find_minmax(std::vector<double> numbers, double& min, double& max);
+void make_histogram(std::vector<double> numbers, size_t binCount);
+
 int main() {
 
-	std::cout << "Enter A and B: ";
-	double a, b;
-	std::cin >> a >> b;
-    std::cout << "A + B = " << a + b << '\n'
-			  << "A - B = " << a - b << '\n'
-			  << "A * B = " << a * b << '\n'
-			  << "A / B = " << a / b << '\n';
+	// std::cout << "Enter A and B: ";
+	// double a, b;
+	// std::cin >> a >> b;
+    // std::cout << "A + B = " << a + b << '\n'
+	// 		  << "A - B = " << a - b << '\n'
+	// 		  << "A * B = " << a * b << '\n'
+	// 		  << "A / B = " << a / b << '\n';
 
-
-
-
+	////// Ввод данных
 	size_t numberCount;
-
 	std::cerr << "Enter number count: ";
 	std::cin >> numberCount;
-	std::vector<size_t> numbers(numberCount);
 	std::cerr << "Enter numbers : ";
-	for (size_t i = 0; i < numberCount; i++) {
-		std::cin >> numbers[i];
-	}
+	const auto numbers = input_numbers(numberCount);
 
 	size_t binCount;
 	std::cerr << "Enter bin count: ";
 	std::cin >> binCount;
-	std::vector<size_t> bins(binCount);
+	make_histogram(numbers, binCount);
 
-	// для нашего варианта
+	return 0;
+}
+
+std::vector<double> input_numbers(size_t count) {
+	std::vector<double> result(count);
+	for (size_t i = 0; i < count; i++) {
+		std::cin >> result[i];
+	}
+	return result;
+}
+
+void output_numbers(std::vector<double> bins, std::vector<std::string> labels, std::string longestLabel, size_t binCount) {
+	for (size_t i = 0; i < binCount; i++) {
+		std::cout.width(longestLabel.length());
+		std::cout << std::right << labels[i] << '|';
+		for (size_t j = 0; j < bins[i]; j++) {
+			std::cout << '*';
+		}
+		std::cout << std::endl;
+	}
+}
+
+void output_numbers_scaling(std::vector<double> bins, std::vector<std::string> labels, std::string longestLabel, size_t binCount) {
+	size_t max_count = bins[0];
+    for(size_t i = 1; i < binCount; i++) {
+        if(max_count < bins[i]) max_count = bins[i];
+    }
+	for (size_t i = 0; i < binCount; i++) {
+		std::cout.width(longestLabel.length());
+		std::cout << std::right << labels[i] << '|';
+		for (size_t j = 0; j < static_cast<size_t>(MAX_ASTERISK * (static_cast<double>(bins[i]) / max_count)); j++) {
+			std::cout << '*';
+		}
+		std::cout << std::endl;
+	}
+}
+
+void find_minmax(std::vector<double> numbers, double& min, double& max) {
+	min = numbers[0];
+	max = numbers[0];
+	for (double x : numbers) {
+		if (x < min) {
+			min = x;
+		}
+		else if (x > max) {
+			max = x;
+		}
+	}
+}
+
+void make_histogram(std::vector<double> numbers, size_t binCount) {
+	double min, max;
+	find_minmax(numbers, min, max);
+	std::vector<double> bins(binCount);
+
+	////// для нашего варианта 1ЛАБ ///////
 	std::string longestLabel;
 	std::string lineLabel;
 	std::vector<std::string> labels(binCount);
@@ -47,19 +102,19 @@ int main() {
 		}
 	}
 
-	double min = numbers[0];
-	double max = numbers[0];
-	for (double x : numbers) {
-		if (x < min) {
-			min = x;
-		}
-		else if (x > max) {
-			max = x;
-		}
-	}
+	////// для 2 этапа 1ЛАБ //////
+	// labels[0] = std::to_string(bins[0]);
+	// longestLabel = labels[0];
+	// for (size_t i = 1; i < binCount; i++) {
+	// 	labels[i] = std::to_string(bins[i]);
+	// 	if (std::to_string(bins[i]).length() > longestLabel.length()) {
+	// 		longestLabel = std::to_string(bins[i]);
+	// 	}
+	// }
+
 
 	double binSize = (max - min) / binCount;
-	for (size_t i = 0; i < numberCount; i++) {
+	for (size_t i = 0; i < numbers.size(); i++) {
 		bool found = false;
 		for (size_t j = 0; (j < binCount - 1) && !found; j++) {
 			auto low = min + j * binSize;
@@ -73,40 +128,7 @@ int main() {
 			bins[binCount - 1]++;
 		}
 	}
-
-	// для 2 этапа
-	// labels[0] = std::to_string(bins[0]);
-	// longestLabel = labels[0];
-	// for (size_t i = 1; i < binCount; i++) {
-	// 	labels[i] = std::to_string(bins[i]);
-	// 	if (std::to_string(bins[i]).length() > longestLabel.length()) {
-	// 		longestLabel = std::to_string(bins[i]);
-	// 	}
-	// }
-
-	// вывод
-	for (size_t i = 0; i < binCount; i++) {
-		std::cout.width(longestLabel.length());
-		std::cout << std::right << labels[i] << '|';
-		for (size_t j = 0; j < bins[i]; j++) {
-			std::cout << '*';
-		}
-		std::cout << std::endl;
-	}
-
-    // Вывод с маштабированием
-    size_t max_count = bins[0];
-    for(size_t i = 1; i < binCount; i++) {
-        if(max_count < bins[i]) max_count = bins[i];
-    }
-	for (size_t i = 0; i < binCount; i++) {
-		std::cout.width(longestLabel.length());
-		std::cout << std::right << labels[i] << '|';
-		for (size_t j = 0; j < static_cast<size_t>(MAX_ASTERISK * (static_cast<double>(bins[i]) / max_count)); j++) {
-			std::cout << '*';
-		}
-		std::cout << std::endl;
-	}
-
-	return 0;
+	
+	output_numbers(bins, labels, longestLabel, binCount);
+	output_numbers_scaling(bins, labels, longestLabel, binCount);
 }
