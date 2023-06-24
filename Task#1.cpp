@@ -14,6 +14,7 @@ void find_minmax(std::vector<double> numbers, double& min, double& max);
 void make_histogram(std::vector<double> numbers, size_t binCount);
 
 int main() {
+	
 
 	// std::cout << "Enter A and B: ";
 	// double a, b;
@@ -22,6 +23,7 @@ int main() {
 	// 		  << "A - B = " << a - b << '\n'
 	// 		  << "A * B = " << a * b << '\n'
 	// 		  << "A / B = " << a / b << '\n';
+
 
 	////// Ввод данных
 	size_t numberCount;
