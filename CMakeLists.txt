@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.25.2)
 
-project(Practice)
+add_executable(Task3 main.cpp svg.h histogram.cpp histogram.h)
 
-add_subdirectory(src)
-add_subdirectory(test)
+set(CMAKE_CXX_STANDARD 17)
