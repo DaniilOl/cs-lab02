@@ -3,6 +3,7 @@
 #include <string>
 
 #include "histogram.h"
+#include "histogram.cpp"
 #include "svg.h"
 
 const auto SCREEN_WIDTH = 80;
