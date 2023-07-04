@@ -2,9 +2,9 @@
 #include <vector>
 #include <string>
 
-#include "histogram.h"
-#include "histogram.cpp"
-#include "svg.h"
+#include "moduls/histogram.h"
+#include "moduls/histogram.cpp"
+#include "moduls/svg.h"
 
 const auto SCREEN_WIDTH = 80;
 const auto MAX_ASTERISK = SCREEN_WIDTH - 3 - 1;
@@ -117,10 +117,11 @@ void make_histogram(std::vector<double> numbers, size_t bin_count, size_t length
 	find_minmax(numbers, min, max);
 	std::vector<double> bins(bin_count);
 
-	////// для нашего варианта 1ЛАБ ///////
 	std::string longest_label;
 	std::string line_label;
 	std::vector<std::string> labels(bin_count);
+	
+	////// для нашего варианта 1ЛАБ ///////
 	for (size_t i = 0; i < bin_count; i++) {
 		std::cerr << "Enter label " << i + 1 << " column: ";
 		std::getline(std::cin >> std::ws, line_label);

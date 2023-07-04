@@ -1,5 +1,6 @@
 #include <cassert>
 
+#include "histogram.cpp"
 #include "histogram.h"
 
 void test_positive() {
